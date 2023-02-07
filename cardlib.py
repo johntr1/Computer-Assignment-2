@@ -1,6 +1,8 @@
 # This is a sample Python script.
 from enum import Enum
 from abc import ABCMeta, abstractmethod
+
+
 class Suit(Enum):
     Hearts = 4
     Spades = 3
@@ -12,21 +14,14 @@ print(Suit.Hearts)
 
 print(Suit.Hearts.value)
 
+
 class PlayingCard(metaclass=ABCMeta):
+    def __init__(self, suit):
+        self.suit = suit
 
     @abstractmethod
     def get_value(self):
-        return self.value
-
-
-
-class NumberedCard(PlayingCard):
-    def __init__(self, value, suit):
-        self.value = value
-        self.suit = suit
-
-    def get_value(self):
-        return self.value
+        pass
 
     def __lt__(self, other):
         if self.get_value() == other.get_value():
@@ -34,40 +29,49 @@ class NumberedCard(PlayingCard):
         else:
             return self.get_value() < other.get_value()
 
+
+class NumberedCard(PlayingCard):
+    def __init__(self, value, suit):
+        super().__init__(suit)
+        self.value = value
+
+    def get_value(self):
+        return self.value
+
+
 class JackCard(PlayingCard):
     def __init__(self, suit):
-        self.suit = suit
+        super().__init__(suit)
 
     def get_value(self):
         return 11
 
 
+
+
 class QueenCard(PlayingCard):
     def __init__(self, suit):
-        self.suit = suit
+        super().__init__(suit)
 
     def get_value(self):
         return 12
 
+
 class KingCard(PlayingCard):
     def __init__(self, suit):
-        self.suit = suit
+        super().__init__(suit)
 
     def get_value(self):
         return 13
-
-    def __lt__(self, other):
-        if self.get_value() == other.get_value():
-            return self.suit.value < other.suit.value
-        else:
-            return self.get_value() < other.get_value()
 
 
 
 class AceCard(PlayingCard):
     def __init__(self, suit):
-        self.suit = suit
+        super().__init__(suit)
+
+    def get_value(self):
+        return 14
 
 
-
-print(NumberedCard(4, Suit.Hearts))
+print(NumberedCard(4, Suit.Hearts) > JackCard(Suit.Hearts))
