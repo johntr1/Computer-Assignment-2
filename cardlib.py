@@ -119,8 +119,9 @@ class Hand:
     def __init__(self):
         self.cards = []
 
-    def add_card(self):
-        draw()
+    def add_card(self, draw):
+        self.cards.append(draw)
+
 
 
 print(h)
