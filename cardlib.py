@@ -116,7 +116,11 @@ h = StandardDeck()
 
 
 class Hand:
-    
+    def __init__(self):
+        self.cards = []
+
+    def add_card(self):
+        draw()
 
 
 print(h)
