@@ -28,6 +28,11 @@ class PlayingCard(metaclass=ABCMeta):
             return self.suit.value < other.suit.value
         else:
             return self.get_value() < other.get_value()
+    def __eq__(self, other):
+        if self.get_value() == other.get_value() and self.suit.value == other.suit.value:
+            return True
+        else:
+            return False
 
 
 class NumberedCard(PlayingCard):
