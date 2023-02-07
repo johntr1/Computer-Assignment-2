@@ -122,6 +122,13 @@ class Hand:
     def add_card(self, draw):
         self.cards.append(draw)
 
+    def sort(self):
+        
+
+
+
+
+
 
 
 print(h)
