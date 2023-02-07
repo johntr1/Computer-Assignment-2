@@ -47,8 +47,6 @@ class JackCard(PlayingCard):
         return 11
 
 
-
-
 class QueenCard(PlayingCard):
     def __init__(self, suit):
         super().__init__(suit)
@@ -65,13 +63,12 @@ class KingCard(PlayingCard):
         return 13
 
 
-
 class AceCard(PlayingCard):
     def __init__(self, suit):
         super().__init__(suit)
 
     def get_value(self):
-        return 14
+        return 1, 14
 
 
-print(NumberedCard(4, Suit.Hearts) > JackCard(Suit.Hearts))
+print(JackCard(Suit.Hearts) < JackCard(Suit.Spades))
