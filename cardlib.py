@@ -25,15 +25,26 @@ class NumberedCard(PlayingCard):
         self.suit = suit
 
     def get_value(self):
-        
+        return self.value
+
 class JackCard(PlayingCard):
+    def __init__(self, suit):
+        self.suit = suit
+
+    def get_value(self):
+        
 
 class QueenCard(PlayingCard):
+    def __init__(self, suit):
+        self.suit = suit
 
 class KingCard(PlayingCard):
+    def __init__(self, suit):
+        self.suit = suit
 
 class AceCard(PlayingCard):
-
+    def __init__(self, suit):
+        self.suit = suit
 
 
 
