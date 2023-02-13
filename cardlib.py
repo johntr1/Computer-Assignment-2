@@ -3,6 +3,7 @@ from enum import Enum
 from abc import ABCMeta, abstractmethod
 import random
 
+
 class Suit(Enum):
     Hearts = 4
     Spades = 3
@@ -90,7 +91,6 @@ class AceCard(PlayingCard):
         return 1, 14
 
 
-print(type(KingCard(Suit.Hearts)))
 
 
 # StandardDeck
@@ -100,7 +100,7 @@ class StandardDeck:
         for i in Suit:
             self.deck.append(AceCard(i))
             for j in range(2, 11):
-                self.deck.append(NumberedCard(i, j))
+                self.deck.append(NumberedCard(j, i))
             self.deck.append(JackCard(i))
             self.deck.append(QueenCard(i))
             self.deck.append(KingCard(i))
@@ -112,9 +112,6 @@ class StandardDeck:
         return random.shuffle(self.deck)
 
 
-h = StandardDeck()
-
-
 class Hand:
     def __init__(self):
         self.cards = []
@@ -123,16 +120,30 @@ class Hand:
         self.cards.append(draw)
 
     def sort(self):
-        
+        n = len(self.cards) - 1  # Reduces the length by -1 to avoid an extra loop at the end
+        # Implementation of Bubble Sort
+        is_swapped = False  # Optimization to later check if list is already swapped
+
+        for i in range(n):
+            for j in range(n - i):
+                if self.cards[j].get_value() > self.cards[j + 1].get_value():
+                    self.cards[j] = self.cards[j + 1]
+                    self.cards[j + 1] = self.cards[j]
+
+            if not is_swapped:
+                return
 
 
-
-
-
-
-
-print(h)
-print(h.draw())
+h = Hand()
+d = StandardDeck()
+d.shuffle()
+h.add_card(d.draw())
+h.add_card(d.draw())
+h.add_card(d.draw())
+h.add_card(d.draw())
+h.add_card(d.draw())
+h.sort()
+print(h.cards)
 
 # def shuffle(self):
 
