@@ -23,10 +23,10 @@ class PlayingCard(metaclass=ABCMeta):
         pass
 
     def __lt__(self, other):
-        if self.get_value() == other.get_value():
-            return self.suit.value < other.suit.value
-        else:
+        if self.suit.value == other.suit.value:
             return self.get_value() < other.get_value()
+        else:
+            return self.suit.value < other.suit.value
 
     def __eq__(self, other):
         if self.get_value() == other.get_value() and self.suit.value == other.suit.value:
@@ -88,7 +88,7 @@ class AceCard(PlayingCard):
         return f' Ace of {self.suit}'
 
     def get_value(self):
-        return 1, 14
+        return 1
 
 
 
@@ -144,6 +144,10 @@ h.add_card(d.draw())
 h.add_card(d.draw())
 h.sort()
 print(h.cards)
+
+for i in range(len(h.cards)):
+    print(h.cards[i])
+
 
 # def shuffle(self):
 
