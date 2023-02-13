@@ -23,10 +23,10 @@ class PlayingCard(metaclass=ABCMeta):
         pass
 
     def __lt__(self, other):
-        if self.suit.value == other.suit.value:
-            return self.get_value() < other.get_value()
-        else:
+        if self.get_value() == other.get_value():
             return self.suit.value < other.suit.value
+        else:
+            return self.get_value() < other.get_value()
 
     def __eq__(self, other):
         if self.get_value() == other.get_value() and self.suit.value == other.suit.value:
@@ -91,8 +91,6 @@ class AceCard(PlayingCard):
         return 1
 
 
-
-
 # StandardDeck
 class StandardDeck:
     def __init__(self):
@@ -126,12 +124,35 @@ class Hand:
 
         for i in range(n):
             for j in range(n - i):
-                if self.cards[j].get_value() > self.cards[j + 1].get_value():
-                    self.cards[j] = self.cards[j + 1]
-                    self.cards[j + 1] = self.cards[j]
+                if self.cards[j] > self.cards[j + 1]:
+                    self.cards[j], self.cards[j + 1] = self.cards[j + 1], self.cards[j]
+                    is_swapped = True
 
             if not is_swapped:
                 return
+
+    def drop_cards(self, drop_list):
+        # Reverse the index list to prevent change of indexes in the card_list
+        drop_list = sorted(drop_list, reverse=True)
+        for i in drop_list:
+            del self.cards[i]
+
+
+class PokerHand:
+    def __init__(self, cards):
+        self.cards = cards
+
+    # for i in range(5):
+    #    if h.cards[i].get_value() == h.cards[i+1].get_value()-1:
+    #         if cards[i].suit.value == cards[i+1].suit.value:
+    #             if i ==4:
+    #                 return value=9
+    #             continue
+    #         else break
+    #    else break
+
+
+# if h.cards[i].get_value() == h.cards[-2]+1 and h.cards[-2].get_value() == h.cards[-3].get_value()+1 and h.cards[-4].get_value() == h.cards[-5].get_value()+1:
 
 
 h = Hand()
@@ -142,13 +163,19 @@ h.add_card(d.draw())
 h.add_card(d.draw())
 h.add_card(d.draw())
 h.add_card(d.draw())
-h.sort()
-print(h.cards)
-
 for i in range(len(h.cards)):
     print(h.cards[i])
-
+h.sort()
+print('splitt')
+for i in range(len(h.cards)):
+    print(h.cards[i])
+dl = [0, 2]
+print('splitt')
+h.drop_cards(dl)
+for i in range(len(h.cards)):
+    print(h.cards[i])
 
 # def shuffle(self):
 
 # def draw(self):
+PokerHand(h.sort())
