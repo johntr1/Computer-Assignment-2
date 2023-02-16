@@ -88,7 +88,7 @@ class AceCard(PlayingCard):
         return f' Ace of {self.suit}'
 
     def get_value(self):
-        return 1
+        return 14
 
 
 # StandardDeck
@@ -138,14 +138,22 @@ class Hand:
             del self.cards[i]
 
 
+
 class PokerHand:
     def __init__(self, cards):
         self.cards = cards
+        self.value= []
+
+    def get_value(self):
+       if not check_straight_flush(self)==None:
+           return [9]+check_straigt_flush(self)
+       elif True:
 
 
-    def check_straight_flush(self):
+
+    def check_straight_flush(PokerHand):
         """
-        Checks for the best stright flush in a list of cards
+        Checks for the best straight flush in a list of cards
 
         :return:
         """
@@ -164,31 +172,53 @@ class PokerHand:
             if straight_flush:
                 return [card.get_value(), card.suit]
 
-    def check_full_house_three_2pair_pair(self):
-        count=[0]*len(cards)
-        for i, card1 in enumerate(cards):
-            for card2 in cards:
-                if card1.get_value()==card2.get_value():
-                    count[i]=+1
+
+    def get_count(self):
+        count = [0] * len(self.cards)
+
+        for i, card1 in enumerate(self.cards):  # Two for loops to count how many of the same value exists
+            for card2 in self.cards:
+                if card1.get_value() == card2.get_value():
+                    count[i] = count[i] + 1
+        return count
+
+
+    def check_four_of_a_kind(self,count):
+        print(count)
+        if 4 in count:
+            four_indices=[i for i, x in enumerate(count) if x==4]
+            the_fours=self.cards
+
+    def check_full_house(self, count):
         if 2 in count and 3 in count:
+            print('yes')
             #Finds the position of the three of a kind and get what value it has
             threes_indices=[i for i, x in enumerate(count) if x==3]
-            threes=cards[threes_indices]
+            threes=self.cards[threes_indices]
             threes=reversed(threes.sort())
-            return [Fullhouse, threes[0].get_value]
+            return Fullhouse, threes[0].get_value
+
+
+
+    def check_three_of_a_kind(self, count):
         elif 3 in count:
             # Finds the position of the three of a kind and get what value it has
             threes_indices = [i for i, x in enumerate(count) if x == 3]
             threes = cards[threes_indices]
             threes = reversed(threes.sort())
             return [three, threes[0].get_value]
-        elif len([i for i in count if i==2]) >= 2:
+
+    def check_if_two_pair(self,count):
+         elif len([i for i in count if i==2]) >= 2:
             # Finds the position of the pars of a kind and get what value and suit it has
             pair_indices=[i for i, x in enumerate(count) if x==2]
             pairs=cards[par_indices]
             pairs=reversed(pair.sort())
+            return
 
+    def check_if_pair(self, count):
         elif 2 in count:
+            print('yes')
 
 
 
@@ -199,11 +229,9 @@ class PokerHand:
 h = Hand()
 d = StandardDeck()
 d.shuffle()
-h.add_card(d.draw())
-h.add_card(d.draw())
-h.add_card(d.draw())
-h.add_card(d.draw())
-h.add_card(d.draw())
+for i in range(20):
+    h.add_card(d.draw())
+
 for i in range(len(h.cards)):
     print(h.cards[i])
 h.sort()
@@ -212,11 +240,8 @@ for i in range(len(h.cards)):
     print(h.cards[i])
 dl = [0, 2]
 print('splitt')
-h.drop_cards(dl)
+
 for i in range(len(h.cards)):
     print(h.cards[i])
 
-# def shuffle(self):
-
-# def draw(self):
-PokerHand(h.sort())
+print(PokerHand.check_full_house_three_2pair_pair(h))
