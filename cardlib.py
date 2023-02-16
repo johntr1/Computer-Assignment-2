@@ -140,32 +140,40 @@ class Hand:
 
 
 class PokerHand:
-    def __init__(self, cards):
+    def __init__(self, cards, value):
         self.cards = cards
-        self.value= []
+        self.value = []
 
-    def get_value(self):
+    def get_value(self, cards):
        if not check_straight_flush(self)==None:
            return [9]+check_straigt_flush(self)
        elif True:
+           count=get_count(self.cards)
+            check=check_four_of_a_kind(self,count)
+            if not check==None:
+                #set value to [9, check]
+        #och så fortsätter den att testa alla, har inte gjort en för high cards på den behöver det vara
+        #card value och suit
 
 
 
-    def check_straight_flush(PokerHand):
+
+
+
+    def check_straight_flush(self):
         """
         Checks for the best straight flush in a list of cards
 
         :return:
         """
-        #works if ace is sett as 14, kanske skulle använda oss av två lista av korten i handen
-        vals=[]
-        for c in cards:
+        #works if ace is sett as 14
+        for c in self.cards:
             if c.get_value()==14:
-                cards.append((1,c.suit))
+                self.cards.append((1,c.suit))
 
-        for card in reversed(cards):
+        for card in reversed(self.cards):
             for k in range(1, 5):
-                if (card.get_value()-k , card.suit) not in cards:
+                if (card.get_value()-k , card.suit) not in self.cards:
                     straight_flush=False
                     break
             straight_flush=True
@@ -176,7 +184,7 @@ class PokerHand:
     def get_count(self):
         count = [0] * len(self.cards)
 
-        for i, card1 in enumerate(self.cards):  # Two for loops to count how many of the same value exists
+        for i, card1 in enumerate(self.cards):  # Two for loops to count how many of the same value exists and where
             for card2 in self.cards:
                 if card1.get_value() == card2.get_value():
                     count[i] = count[i] + 1
@@ -184,46 +192,52 @@ class PokerHand:
 
 
     def check_four_of_a_kind(self,count):
-        print(count)
+        #finds the posiontion of the three of a kinda and gets the highest card
         if 4 in count:
             four_indices=[i for i, x in enumerate(count) if x==4]
-            the_fours=self.cards
+            the_fours=self.cards[four_indices]
+            the_fours=reversed(the_fours.sort())
+            return the_fours[0].get_value()
 
     def check_full_house(self, count):
         if 2 in count and 3 in count:
-            print('yes')
             #Finds the position of the three of a kind and get what value it has
             threes_indices=[i for i, x in enumerate(count) if x==3]
             threes=self.cards[threes_indices]
             threes=reversed(threes.sort())
-            return Fullhouse, threes[0].get_value
+            return threes[0].get_value()
 
 
 
     def check_three_of_a_kind(self, count):
-        elif 3 in count:
-            # Finds the position of the three of a kind and get what value it has
+        if 3 in count:
+        # Finds the position of the three of a kind and get what value it has
             threes_indices = [i for i, x in enumerate(count) if x == 3]
-            threes = cards[threes_indices]
+            threes = self.cards[threes_indices]
             threes = reversed(threes.sort())
-            return [three, threes[0].get_value]
+            return threes[0].get_value()
 
-    def check_if_two_pair(self,count):
-         elif len([i for i in count if i==2]) >= 2:
+    def check_if_two_pair(self, count):
+         if len([i for i in count if i==2]) >= 2:
             # Finds the position of the pars of a kind and get what value and suit it has
             pair_indices=[i for i, x in enumerate(count) if x==2]
-            pairs=cards[par_indices]
-            pairs=reversed(pair.sort())
-            return
+            pairs=self.cards[pair_indices]
+            pairs=reversed(pairs.sort())
+            return pairs[0].get_value(), pairs[0].suit
 
     def check_if_pair(self, count):
-        elif 2 in count:
-            print('yes')
+        if 2 in count:
+# Finds the position of the pars of a kind and get what value and suit it has
+            pair_indices=[i for i, x in enumerate(count) if x==2]
+            pair=self.cards[pair_indices]
+            pair=reversed(pair.sort())
+            return pair[0].get_value(), pair[0].suit
 
 
 
 
-# if h.cards[i].get_value() == h.cards[-2]+1 and h.cards[-2].get_value() == h.cards[-3].get_value()+1 and h.cards[-4].get_value() == h.cards[-5].get_value()+1:
+
+
 
 
 h = Hand()
