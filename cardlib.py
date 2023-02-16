@@ -147,12 +147,12 @@ class PokerHand:
     def get_value(self, cards):
        if not check_straight_flush(self)==None:
            return [9]+check_straigt_flush(self)
-       elif True:
-           count=get_count(self.cards)
-            check=check_four_of_a_kind(self,count)
-            if not check==None:
-                #set value to [9, check]
-        #och så fortsätter den att testa alla, har inte gjort en för high cards på den behöver det vara
+
+    count=get_count(self.cards)
+    check=check_four_of_a_kind(self,count)
+        if not check==None:
+            return [8]+check
+        #och så fortsätter den att testa alla, har inte gjort en för high cards på den behöver return vara
         #card value och suit
 
 
