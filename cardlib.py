@@ -145,13 +145,42 @@ class PokerHand:
         self.value = []
 
     def get_value(self, cards):
-       if not check_straight_flush(self)==None:
-           return [9]+check_straigt_flush(self)
+        check= self.check_straight_flush(self)
+        if not check==None:
+            return [9] + check
 
-    count=get_count(self.cards)
-    check=check_four_of_a_kind(self,count)
+        count=self.get_count(self.cards)
+        check=self.check_four_of_a_kind(self, count)
         if not check==None:
             return [8]+check
+
+        check = self.check_full_house(self, count)
+        if not check == None:
+            return [7] + check
+
+        check = self.check_flush(self)
+        if not check == None:
+            return [6] + check
+
+        check = self.check_straight(self)
+        if not check == None:
+            return [5] + check
+
+        check = self.check_three_of_a_kind(self)
+        if not check == None:
+            return [4] + check
+
+        check = self.check_two_pair(self)
+        if not check == None:
+            return [3] + check
+
+        check = self.check_pair(self)
+        if not check == None:
+            return [2] + check
+
+
+        return [1] + self.its_high_cards(self)
+
         #och så fortsätter den att testa alla, har inte gjort en för high cards på den behöver return vara
         #card value och suit
 
@@ -174,7 +203,6 @@ class PokerHand:
         for card in reversed(self.cards):
             for k in range(1, 5):
                 if (card.get_value()-k , card.suit) not in self.cards:
-                    straight_flush=False
                     break
             straight_flush=True
             if straight_flush:
@@ -183,8 +211,8 @@ class PokerHand:
 
     def get_count(self):
         count = [0] * len(self.cards)
-
-        for i, card1 in enumerate(self.cards):  # Two for loops to count how many of the same value exists and where
+        # Two for loops to count how many of the same value exists and where
+        for i, card1 in enumerate(self.cards):
             for card2 in self.cards:
                 if card1.get_value() == card2.get_value():
                     count[i] = count[i] + 1
@@ -208,6 +236,26 @@ class PokerHand:
             return threes[0].get_value()
 
 
+    def check_flush(self):
+        suit_count = [0] * len(Suit)
+        # Two for loops to count how many of the same value exists and where
+        for i, card1 in enumerate(self.cards):
+            for card2 in self.cards:
+                if card1.get_value() == card2.get_value():
+                    suit_count[i] = suit_count[i] + 1
+        return count
+    def check_straight(self):
+        for c in self.cards:
+            if c.get_value()==14:
+                self.cards.append((1,c.suit))
+
+        for card in reversed(self.cards):
+            for k in range(1, 5):
+                if (card.get_value()-k) not in self.cards:
+                    break
+            straight=True
+            if straight:
+                return [card.get_value(), card.suit]
 
     def check_three_of_a_kind(self, count):
         if 3 in count:
@@ -217,7 +265,7 @@ class PokerHand:
             threes = reversed(threes.sort())
             return threes[0].get_value()
 
-    def check_if_two_pair(self, count):
+    def check_two_pair(self, count):
          if len([i for i in count if i==2]) >= 2:
             # Finds the position of the pars of a kind and get what value and suit it has
             pair_indices=[i for i, x in enumerate(count) if x==2]
@@ -225,7 +273,7 @@ class PokerHand:
             pairs=reversed(pairs.sort())
             return pairs[0].get_value(), pairs[0].suit
 
-    def check_if_pair(self, count):
+    def check_pair(self, count):
         if 2 in count:
 # Finds the position of the pars of a kind and get what value and suit it has
             pair_indices=[i for i, x in enumerate(count) if x==2]
@@ -233,7 +281,9 @@ class PokerHand:
             pair=reversed(pair.sort())
             return pair[0].get_value(), pair[0].suit
 
-
+    def its_high_cards(self):
+        cards=reversed(self.cards.sort())
+        return cards[0].get_value(), cards[0].suit
 
 
 
