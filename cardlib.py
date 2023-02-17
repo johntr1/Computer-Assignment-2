@@ -138,36 +138,37 @@ class Hand:
             del self.cards[i]
 
 
-
 class PokerHand:
-    def __init__(self, cards, value):
-        self.cards = cards
+    def __init__(self, cards):
         self.value = []
+        self.cards = cards
+        Hand.sort(self)
 
-    def get_value(self, cards):
-        check= self.check_straight_flush(self)
-        if not check==None:
+    def check_poker_hand_value(self):
+
+        check = self.check_straight_flush()
+        if check is not None:
             return [9] + check
 
-        count=self.get_count(self.cards)
-        check=self.check_four_of_a_kind(self, count)
-        if not check==None:
-            return [8]+check
+        count = self.get_count(self.cards)
+        check = self.check_four_of_a_kind(self, count)
+        if check is not None:
+            return [8] + check
 
         check = self.check_full_house(self, count)
-        if not check == None:
+        if check is not None:
             return [7] + check
 
         check = self.check_flush(self)
-        if not check == None:
+        if check is not None:
             return [6] + check
 
         check = self.check_straight(self)
-        if not check == None:
+        if check is not None:
             return [5] + check
 
         check = self.check_three_of_a_kind(self)
-        if not check == None:
+        if check is not None:
             return [4] + check
 
         check = self.check_two_pair(self)
@@ -178,36 +179,26 @@ class PokerHand:
         if not check == None:
             return [2] + check
 
-
         return [1] + self.its_high_cards(self)
-
-        #och så fortsätter den att testa alla, har inte gjort en för high cards på den behöver return vara
-        #card value och suit
-
-
-
-
-
 
     def check_straight_flush(self):
         """
         Checks for the best straight flush in a list of cards
 
-        :return:
+        return:
         """
-        #works if ace is sett as 14
-        for c in self.cards:
-            if c.get_value()==14:
-                self.cards.append((1,c.suit))
+        # works if ace is set as 14
+        ace_cards = [NumberedCard(1, c.suit) for c in self.cards if c.get_value() == 14]
 
-        for card in reversed(self.cards):
+        cards = ace_cards + self.cards
+        print(cards)
+        for card in reversed(cards):
             for k in range(1, 5):
-                if (card.get_value()-k , card.suit) not in self.cards:
+                if (card.get_value() - k, card.suit) not in cards:
                     break
-            straight_flush=True
+            straight_flush = True
             if straight_flush:
-                return [card.get_value(), card.suit]
-
+                return card.get_value(), card.suit
 
     def get_count(self):
         count = [0] * len(self.cards)
@@ -218,76 +209,66 @@ class PokerHand:
                     count[i] = count[i] + 1
         return count
 
-
-    def check_four_of_a_kind(self,count):
-        #finds the posiontion of the three of a kinda and gets the highest card
+    def check_four_of_a_kind(self, count):
+        # finds the position of the three of a kind and gets the highest card
         if 4 in count:
-            four_indices=[i for i, x in enumerate(count) if x==4]
-            the_fours=self.cards[four_indices]
-            the_fours=reversed(the_fours.sort())
-            return the_fours[0].get_value()
+            four_indices = [i for i, x in enumerate(count) if x == 4]
+            the_fours = [self.cards[x] for x in four_indices]  # Returns elements from list of indices
+            return the_fours[-1].get_value()
 
     def check_full_house(self, count):
         if 2 in count and 3 in count:
-            #Finds the position of the three of a kind and get what value it has
-            threes_indices=[i for i, x in enumerate(count) if x==3]
-            threes=self.cards[threes_indices]
-            threes=reversed(threes.sort())
-            return threes[0].get_value()
-
+            # Finds the position of the three of a kind and get what the highets value it has
+            threes_indices = [i for i, x in enumerate(count) if x == 3]
+            threes = [self.cards[x] for x in threes_indices]  # Returns elements from list of indices
+            return threes[-1].get_value()
 
     def check_flush(self):
         suit_count = [0] * len(Suit)
+
         # Two for loops to count how many of the same value exists and where
         for i, card1 in enumerate(self.cards):
             for card2 in self.cards:
-                if card1.get_value() == card2.get_value():
+                if card1.suit == card2.suit:
                     suit_count[i] = suit_count[i] + 1
-        return count
+        return card1[0].get_value(), card1[0].suit
+
     def check_straight(self):
         for c in self.cards:
-            if c.get_value()==14:
-                self.cards.append((1,c.suit))
+            if c.get_value() == 14:
+                self.cards.append((1, c.suit))
 
         for card in reversed(self.cards):
             for k in range(1, 5):
-                if (card.get_value()-k) not in self.cards:
+                if (card.get_value() - k) not in self.cards:
                     break
-            straight=True
+            straight = True
             if straight:
                 return [card.get_value(), card.suit]
 
     def check_three_of_a_kind(self, count):
         if 3 in count:
-        # Finds the position of the three of a kind and get what value it has
+            # Finds the position of the three of a kind and get what value it has
             threes_indices = [i for i, x in enumerate(count) if x == 3]
             threes = self.cards[threes_indices]
-            threes = reversed(threes.sort())
-            return threes[0].get_value()
+            return threes[-1].get_value()
 
     def check_two_pair(self, count):
-         if len([i for i in count if i==2]) >= 2:
+        if len([i for i in count if i == 2]) >= 2:
             # Finds the position of the pars of a kind and get what value and suit it has
-            pair_indices=[i for i, x in enumerate(count) if x==2]
-            pairs=self.cards[pair_indices]
-            pairs=reversed(pairs.sort())
-            return pairs[0].get_value(), pairs[0].suit
+            pair_indices = [i for i, x in enumerate(count) if x == 2]
+            pairs = self.cards[pair_indices]
+            return pairs[-1].get_value(), pairs[-1].suit
 
     def check_pair(self, count):
         if 2 in count:
-# Finds the position of the pars of a kind and get what value and suit it has
-            pair_indices=[i for i, x in enumerate(count) if x==2]
-            pair=self.cards[pair_indices]
-            pair=reversed(pair.sort())
-            return pair[0].get_value(), pair[0].suit
+            # Finds the position of the pars of a kind and get what value and suit it has
+            pair_indices = [i for i, x in enumerate(count) if x == 2]
+            pair = self.cards[pair_indices]
+            return pair[-1].get_value(), pair[-1].suit
 
     def its_high_cards(self):
-        cards=reversed(self.cards.sort())
-        return cards[0].get_value(), cards[0].suit
-
-
-
-
+        return cards[-1].get_value(), cards[-1].suit
 
 
 h = Hand()
@@ -298,14 +279,27 @@ for i in range(20):
 
 for i in range(len(h.cards)):
     print(h.cards[i])
-h.sort()
-print('splitt')
-for i in range(len(h.cards)):
-    print(h.cards[i])
-dl = [0, 2]
-print('splitt')
+print('splittt')
+ph = PokerHand(h.cards)
 
-for i in range(len(h.cards)):
-    print(h.cards[i])
+for i in range(len(ph.cards)):
+    print(ph.cards[i])
 
-print(PokerHand.check_full_house_three_2pair_pair(h))
+count = ph.get_count()
+# print(count)
+# print(ph.check_poker_hand_value())
+
+four_hand = Hand()
+four_hand.add_card(KingCard(Suit.Spades))
+four_hand.add_card(KingCard(Suit.Hearts))
+four_hand.add_card(KingCard(Suit.Diamonds))
+four_hand.add_card(KingCard(Suit.Clubs))
+four_hand.add_card(QueenCard(Suit.Clubs))
+four_hand.add_card(JackCard(Suit.Clubs))
+four_hand.add_card(NumberedCard(1, Suit.Clubs))
+#
+fh_ph = PokerHand(four_hand.cards)
+print("SPLITTTT")
+four_hand_count = fh_ph.get_count()
+print(fh_ph.check_full_house(four_hand_count))
+print(NumberedCard(1,Suit.Hearts).suit)
