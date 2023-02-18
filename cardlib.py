@@ -196,7 +196,6 @@ class PokerHand:
         cards = list(reversed(cards))
         print(cards)
         for i, card in enumerate(cards):
-
             for k in range(1, 5):
                 straight_flush = True
                 if (card[0] - k, card[1]) not in cards:
@@ -242,36 +241,25 @@ class PokerHand:
     def check_straight(self):
         # Create a list with the cards' values in rank
         values = [x.get_value() for idx, x in enumerate(self.cards)]
+        # Remove of the same rank:
+        values = sorted(set(values), key=values.index)
         counter = 0
         li = []
-        for i in range(len(values) - 1):
+        for i in range(len(values)-1):
             if values[i+1] - values[i] == 1:
                 counter += 1
-                li.append(values[i])
+                li.append(values[i+1])
             else:
                 counter = 0
                 li = []
 
         if counter >= 4:
-            return max(li),
+            return li[-1]
 
 
 
         print(values)
 
-
-
-        for c in self.cards:
-            if c.get_value() == 14:
-                self.cards.append((1, c.suit))
-
-        for card in reversed(self.cards):
-            for k in range(1, 5):
-                if (card.get_value() - k) not in self.cards:
-                    continue
-            straight = True
-            if straight:
-                return card.get_value(), card.suit
 
     def check_three_of_a_kind(self, count):
         if 3 in count:
@@ -320,13 +308,13 @@ four_hand = Hand()
 four_hand.add_card(KingCard(Suit.Spades))
 four_hand.add_card(QueenCard(Suit.Spades))
 four_hand.add_card(JackCard(Suit.Spades))
-four_hand.add_card(NumberedCard(8, Suit.Spades))
+four_hand.add_card(NumberedCard(10, Suit.Spades))
 four_hand.add_card(NumberedCard(9, Suit.Spades))
 four_hand.add_card(JackCard(Suit.Clubs))
 four_hand.add_card(NumberedCard(1, Suit.Clubs))
 #
 fh_ph = PokerHand(four_hand.cards)
-print("SPLITTTT")0
+print("SPLITTTT")
 
 four_hand_count = fh_ph.get_count()
 print(fh_ph)
