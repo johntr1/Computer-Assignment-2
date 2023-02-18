@@ -153,16 +153,24 @@ class PokerHand(Hand):
         self.cards = cards
 
     def __lt__(self, other):
-        self_value = self.check_poker_hand_value()
-        other_value = other.check_poker_hand_value()
+        self_tuple = self.check_poker_hand_value()
+        other_tuple = other.check_poker_hand_value()
 
-        # Checks for the easiest case where the hand type is different
-        if self_value < other_value:
-            return self_value < other_value
+        # Uses tuple comparison to quickly compare two hands
+        # The tuples are ordered in such way that the first element in the tuple is the hand type rank
+        # The following elements are card values or suit values to compare same type of hands.
+        # The order is determined by the given Wikipedia page by the assignment
+        if self_tuple < other_tuple:
+            return self_tuple < other_tuple
 
-
-        # The comparison conditions are directly referenced from the Wikipedia page
-
+    def __eq__(self, other):
+        # There is a draw for straight hand according to Wikipedia where the tuples be equal to each other
+        self_tuple = self.check_poker_hand_value()
+        other_tuple = other.check_poker_hand_value()
+        if self_tuple == other_tuple:
+            return True
+        else:
+            return False
     def check_poker_hand_value(self):
         # Get the amount of same type of cards and its position
         count = self.get_count()
@@ -283,7 +291,7 @@ class PokerHand(Hand):
                 li = []
 
         if counter >= 4:
-            return li[-1]
+            return li[-1],
 
     def check_three_of_a_kind(self, count):
         if 3 in count:
@@ -349,10 +357,10 @@ h1.add_card(KingCard(Suit.Hearts))
 
 h2 = Hand()
 h2.add_card(QueenCard(Suit.Hearts))
-h2.add_card(AceCard(Suit.Hearts))
+h2.add_card(KingCard(Suit.Spades))
 
 cl = [NumberedCard(10, Suit.Diamonds), NumberedCard(9, Suit.Diamonds),
-      NumberedCard(8, Suit.Clubs), NumberedCard(6, Suit.Spades)]
+      NumberedCard(8, Suit.Clubs), JackCard(Suit.Spades)]
 
 ph1 = h1.best_poker_hand(cl)
 ph2 = h2.best_poker_hand(cl)
