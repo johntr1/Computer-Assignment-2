@@ -188,17 +188,22 @@ class PokerHand:
         return:
         """
         # works if ace is set as 14
-        ace_cards = [NumberedCard(1, c.suit) for c in self.cards if c.get_value() == 14]
+        cards = [(card.get_value(), card.suit) for card in self.cards]
+        ace_cards = [(1, card.suit) for card in self.cards if card.get_value() == 14]
 
-        cards = ace_cards + self.cards
+        cards = ace_cards + cards
         print(cards)
-        for card in reversed(cards):
+        cards = list(reversed(cards))
+        print(cards)
+        for i, card in enumerate(cards):
+
             for k in range(1, 5):
-                if (card.get_value() - k, card.suit) not in cards:
+                straight_flush = True
+                if (card[0] - k, card[1]) not in cards:
+                    straight_flush = False
                     break
-            straight_flush = True
             if straight_flush:
-                return card.get_value(), card.suit
+                return card[0], card[1]
 
     def get_count(self):
         count = [0] * len(self.cards)
@@ -254,7 +259,7 @@ class PokerHand:
                     break
             straight = True
             if straight:
-                return [card.get_value(), card.suit]
+                return card.get_value(), card.suit
 
     def check_three_of_a_kind(self, count):
         if 3 in count:
@@ -301,10 +306,10 @@ count = ph.get_count()
 
 four_hand = Hand()
 four_hand.add_card(KingCard(Suit.Spades))
-four_hand.add_card(QueenCard(Suit.Hearts))
+four_hand.add_card(QueenCard(Suit.Spades))
 four_hand.add_card(JackCard(Suit.Spades))
-four_hand.add_card(NumberedCard(10, Suit.Spades))
-four_hand.add_card(NumberedCard(2, Suit.Spades))
+four_hand.add_card(NumberedCard(8, Suit.Spades))
+four_hand.add_card(NumberedCard(9, Suit.Spades))
 four_hand.add_card(JackCard(Suit.Clubs))
 four_hand.add_card(NumberedCard(1, Suit.Clubs))
 #
@@ -312,5 +317,5 @@ fh_ph = PokerHand(four_hand.cards)
 print("SPLITTTT")
 
 four_hand_count = fh_ph.get_count()
-print(fh_ph.check_flush())
-print(NumberedCard(1, Suit.Hearts).suit)
+print(fh_ph.check_straight_flush())
+
