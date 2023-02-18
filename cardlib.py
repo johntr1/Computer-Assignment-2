@@ -224,14 +224,24 @@ class PokerHand:
             return threes[-1].get_value()
 
     def check_flush(self):
-        suit_count = [0] * len(Suit)
+        # Create a list of the cards' suits
+        suits = [self.cards[x].suit for x, e in enumerate(self.cards)]
+        #  Dictionary with amount of suits and the suit_name that occurs in the list
+        suit_count = {suit_name: suits.count(suit_name) for suit_name in sorted(set(suits), key=suits.index)}
+        # Loop that checks for every element
+        for suit_name, value in suit_count.items():
+            if value >= 5:
+                suit_list = [card for idx, card in enumerate(self.cards) if card.suit == suit_name]
+                return suit_list[-1].get_value(), suit_name
 
-        # Two for loops to count how many of the same value exists and where
-        for i, card1 in enumerate(self.cards):
-            for card2 in self.cards:
-                if card1.suit == card2.suit:
-                    suit_count[i] = suit_count[i] + 1
-        return card1[0].get_value(), card1[0].suit
+    #  print(self.cards)
+    # print(suit_count)
+    #  for i, card1 in enumerate(self.cards):
+    #     for card2 in self.cards:
+    #        if card1.suit == card2.suit and card1 != card2:
+    #            suit_count[i] = suit_count[i] + 1
+    # if suit_count.count(1) >= 5:
+    #    return card1[-1].get_value(), card1[-1].suit
 
     def check_straight(self):
         for c in self.cards:
@@ -291,15 +301,16 @@ count = ph.get_count()
 
 four_hand = Hand()
 four_hand.add_card(KingCard(Suit.Spades))
-four_hand.add_card(KingCard(Suit.Hearts))
-four_hand.add_card(KingCard(Suit.Diamonds))
-four_hand.add_card(KingCard(Suit.Clubs))
-four_hand.add_card(QueenCard(Suit.Clubs))
+four_hand.add_card(QueenCard(Suit.Hearts))
+four_hand.add_card(JackCard(Suit.Spades))
+four_hand.add_card(NumberedCard(10, Suit.Spades))
+four_hand.add_card(NumberedCard(2, Suit.Spades))
 four_hand.add_card(JackCard(Suit.Clubs))
 four_hand.add_card(NumberedCard(1, Suit.Clubs))
 #
 fh_ph = PokerHand(four_hand.cards)
 print("SPLITTTT")
+
 four_hand_count = fh_ph.get_count()
-print(fh_ph.check_full_house(four_hand_count))
-print(NumberedCard(1,Suit.Hearts).suit)
+print(fh_ph.check_flush())
+print(NumberedCard(1, Suit.Hearts).suit)
