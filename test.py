@@ -22,17 +22,19 @@ for i in Suit:
     print(i)
 
 
- cards
+
  for card in reversed(cards):
-            for k in range(1, 5):
-                if (card.get_value() - k, card.suit) not in cards:
-                    break
-            straight_flush = True
-            if straight_flush:
-                return card.get_value(), card.suit
+    for k in range(1, 5):
+        if (card.get_value() - k, card.suit) not in cards:
+            break
+        straight_flush = True
+        if straight_flush:
+            return card.get_value(), card.suit
 
-
-
+cards=reversed(cards)
+for i,card in enumerate(cards):
+    for k in range(1,5):
+        if card.get_value()-k ==
 
 
 
