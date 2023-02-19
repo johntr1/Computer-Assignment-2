@@ -1,5 +1,5 @@
-from enum import Enum
 import pytest
+from enum import Enum
 from cardlib import *
 
 
@@ -92,7 +92,7 @@ def test_hand():
     assert h.cards[1] == cards[3]
 
     # Following tests are own tests made by us
-    
+
     # Same test but with more cards and different indices
     h2 = Hand()
     h2.add_card(d.draw())
@@ -108,6 +108,17 @@ def test_hand():
     assert h2.cards[0] == cards2[0]
     assert h2.cards[1] == cards2[3]
 
+    # Test with specific cards
+    h3 = Hand()
+    h3.add_card(NumberedCard(1, Suit.Spades))
+    h3.add_card(NumberedCard(2, Suit.Spades))
+    h3.add_card(NumberedCard(3, Suit.Spades))
+    h3.add_card(NumberedCard(4, Suit.Spades))
+    h3.add_card(NumberedCard(5, Suit.Spades))
+    # Checks if the cards are in a list
+    assert type(h3.cards) == list
+
+    assert len(h3.cards) == 5
 
 
 # This test builds on the assumptions above. Add your type and data for the commented out tests
@@ -127,8 +138,20 @@ def test_pokerhands():
     ph1 = h1.best_poker_hand(cl)
     assert isinstance(ph1, PokerHand)
     ph2 = h2.best_poker_hand(cl)
-    # assert # Check ph1 handtype class and data here>
-    # assert # Check ph2 handtype class and data here>
+
+    # Checks if the class HandType is an enum
+    assert issubclass(HandType, Enum)
+
+    # Checks if the hand type is of the correct one
+    assert HandType(ph1.check_poker_hand_value()[0]) == HandType.HIGH_CARD
+    # Checks if the hand type's rank values are in correct order according to Poker rules
+    assert ph1.check_poker_hand_value() == (1, 13, 12, 10, 9, 8)
+
+    # Check if ph2 is of correct hand type
+    assert HandType(ph2.check_poker_hand_value()[0]) == HandType.HIGH_CARD
+
+    # Checks if its rank's values are in correct order
+    assert ph2.check_poker_hand_value() == (1, 14, 12, 10, 9, 8)
 
     assert ph1 < ph2
 
@@ -139,9 +162,99 @@ def test_pokerhands():
     assert ph3 < ph4
     assert ph1 < ph2
 
-    # assert # Check ph3 handtype class and data here>
-    # assert # Check ph4 handtype class and data here>
+    # Checks if the poker hand has the correct values in its tuple
+    assert ph3.check_poker_hand_value() == (2, 12, 13, 9, 8)
+
+    # Checks if the hand type is pair
+    assert HandType(ph3.check_poker_hand_value()[0]) == HandType.PAIR
+
+    # Same controls for ph4
+    assert ph4.check_poker_hand_value() == (2, 12, 14, 9, 8)
+    assert HandType(ph4.check_poker_hand_value()[0]) == HandType.PAIR
 
     cl = [QueenCard(Suit.Clubs), QueenCard(Suit.Spades), KingCard(Suit.Clubs), KingCard(Suit.Spades)]
     ph5 = h1.best_poker_hand(cl)
-    # assert # Check ph5 handtype class and data here>
+
+    # Checks if the hand type is correct and its values
+    assert HandType(ph5.check_poker_hand_value()[0]) == HandType.FULL_HOUSE
+    assert ph5.check_poker_hand_value() == (7, 13, 12)
+
+    # We have now controlled for same type of hands comparison and a few hand types.
+    # Now we test the rest of the hand types to ensure everything is working
+
+    # Test if STRAIGHT_FLUSH works
+
+    h3 = Hand()
+    h3.add_card(AceCard(Suit.Diamonds))
+    h3.add_card(KingCard(Suit.Diamonds))
+
+    cl = [QueenCard(Suit.Diamonds), JackCard(Suit.Diamonds), NumberedCard(10, Suit.Diamonds), KingCard(Suit.Spades)]
+
+    ph6 = h3.best_poker_hand(cl)
+    assert HandType(ph6.check_poker_hand_value()[0]) == HandType.STRAIGHT_FLUSH
+    assert ph6.check_poker_hand_value() == (9, 14)
+
+    # Tests for flush
+    cl.pop(0)
+    cl.append(NumberedCard(5, Suit.Diamonds))
+
+    ph_flush = h3.best_poker_hand(cl)
+    assert HandType(ph_flush.check_poker_hand_value()[0]) == HandType.FLUSH
+    assert ph_flush.check_poker_hand_value() == (6, 14, 13, 11, 10, 5)
+
+    # Checks for straight flush if the lower ace works
+    h4 = Hand()
+    h4.add_card(AceCard(Suit.Diamonds))
+    h4.add_card(NumberedCard(2, Suit.Diamonds))
+
+    cl = [NumberedCard(3, Suit.Diamonds), NumberedCard(4, Suit.Diamonds), NumberedCard(5, Suit.Diamonds),
+          KingCard(Suit.Spades)]
+    ph7 = h4.best_poker_hand(cl)
+
+    assert HandType(ph7.check_poker_hand_value()[0]) == HandType.STRAIGHT_FLUSH
+    assert ph7.check_poker_hand_value() == (9, 5)
+
+    assert ph7 < ph6
+
+    # Test for straight
+    cl.pop(0)
+    cl.append(NumberedCard(3, Suit.Spades))
+
+    # Test for straight where AceCard has the value of 1
+    ph7 = h4.best_poker_hand(cl)
+    assert HandType(ph7.check_poker_hand_value()[0]) == HandType.STRAIGHT
+    assert ph7.check_poker_hand_value() == (5, 5)
+
+    # Test for when Ace has value of 14:
+
+    cl = [QueenCard(Suit.Spades), JackCard(Suit.Diamonds), NumberedCard(10, Suit.Diamonds), KingCard(Suit.Spades)]
+    ph8 = h3.best_poker_hand(cl)
+
+    assert HandType(ph8.check_poker_hand_value()[0]) == HandType.STRAIGHT
+    assert ph8.check_poker_hand_value() == (5, 14)
+
+    # Tests for four of a kind
+
+    h5 = Hand()
+    h5.add_card(NumberedCard(7, Suit.Spades))
+    h5.add_card(NumberedCard(7, Suit.Diamonds))
+
+    cl = [NumberedCard(7, Suit.Hearts), NumberedCard(7, Suit.Clubs), KingCard(Suit.Spades), NumberedCard(3, Suit.Spades),
+          NumberedCard(4, Suit.Hearts)]
+
+    ph9 = h5.best_poker_hand(cl)
+    assert HandType(ph9.check_poker_hand_value()[0]) == HandType.FOUR_OF_A_KIND
+    assert ph9.check_poker_hand_value() == (8, 7, 13)
+
+    # Tests for three of a kind
+    cl.pop(0)
+    cl.append(JackCard(Suit.Spades))
+
+    ph9 = h5.best_poker_hand(cl)
+    assert HandType(ph9.check_poker_hand_value()[0]) == HandType.THREE_OF_A_KIND
+    assert ph9.check_poker_hand_value() == (4, 7, 13)
+
+
+
+
+

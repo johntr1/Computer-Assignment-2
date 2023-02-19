@@ -195,9 +195,9 @@ class Hand:
         :return poker_hand:
         """
 
-        self.cards = self.cards + cards
-        self.cards.sort()
-        poker_hand = PokerHand(self.cards)
+        card_list = self.cards + cards
+        card_list.sort()
+        poker_hand = PokerHand(card_list)
         return poker_hand
 
 
@@ -355,12 +355,12 @@ class PokerHand:
         :param (list): count list of the cards with how many of the same value there are and where they are index
 
         if the list has a full house
-        :return (tuple): The value of highest three of a kind then the value for the highest pair
+        :return (tuple): The value of the highest three of a kind then the value for the highest pair
         if not
         :return (NoneType): None
         """
         if 2 in count and 3 in count:
-            # Finds the position of the three of a kind and get what the highets value it has
+            # Finds the position of the three of a kind and get what the highest value it has
             threes_indices = [i for i, x in enumerate(count) if x == 3]
             threes = [self.cards[x] for x in threes_indices]  # Returns elements from list of indices
 
@@ -368,6 +368,11 @@ class PokerHand:
             two_indices = [i for i, x in enumerate(count) if x == 2]
             twos = [self.cards[x] for x in two_indices]
             return threes[-1].get_value(), twos[-1].get_value()
+
+        elif set(count) == {3}:
+            values = [x.get_value() for idx, x in enumerate(self.cards)]
+            card_list = sorted(set(values), key=values.index)
+            return card_list[-1], card_list[-2]
 
     def check_flush(self):
         """
@@ -411,14 +416,14 @@ class PokerHand:
             # If the difference is 1 add to the counter and append the value to list
             if values[i + 1] - values[i] == 1:
                 counter += 1
-                li.append(values[i + 1])
+                li.append(values[i+1])
             elif counter < 4:
                 # Otherwise reset counter and list if the counter is less than four
                 counter = 0
                 li = []
 
-        if counter >= 4:
-            return li[-1],
+            if counter >= 4:
+                return li[-1],
 
     def check_three_of_a_kind(self, count):
         """
@@ -434,7 +439,7 @@ class PokerHand:
         if 3 in count:
             # Finds the position of the three of a kind and get what value it has
             threes_indices = [i for i, x in enumerate(count) if x == 3]
-            threes = self.cards[threes_indices]
+            threes = [self.cards[x] for x in threes_indices]
             # Finds kicker and checks for the highest value
             kicker_indices = [i for i, x in enumerate(count) if x != 3]
             kicker = [self.cards[x] for x in kicker_indices]
@@ -496,3 +501,11 @@ class PokerHand:
         return cards[-1].get_value(), cards[-2].get_value(), \
             cards[-3].get_value(), cards[-4].get_value(), cards[-5].get_value()
 
+h3 = Hand()
+h3.add_card(AceCard(Suit.Diamonds))
+h3.add_card(KingCard(Suit.Diamonds))
+
+cl = [QueenCard(Suit.Spades), JackCard(Suit.Diamonds), NumberedCard(10, Suit.Diamonds), KingCard(Suit.Spades)]
+ph8 = h3.best_poker_hand(cl)
+
+print(ph8.check_straight())
