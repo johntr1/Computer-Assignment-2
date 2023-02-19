@@ -171,6 +171,7 @@ class PokerHand(Hand):
             return True
         else:
             return False
+
     def check_poker_hand_value(self):
         # Get the amount of same type of cards and its position
         count = self.get_count()
@@ -273,7 +274,7 @@ class PokerHand(Hand):
         for suit_name, value in suit_count.items():
             if value >= 5:
                 suit_list = [card for idx, card in enumerate(self.cards) if card.suit == suit_name]
-                return suit_list[-1].get_value(), suit_name
+                return suit_list[-1].get_value(), suit_name.value
 
     def check_straight(self):
         # Create a list with the cards' values in rank
@@ -352,19 +353,17 @@ for i in range(len(ph.cards)):
 # print(ph.check_poker_hand_value())
 
 h1 = Hand()
-h1.add_card(QueenCard(Suit.Diamonds))
+h1.add_card(QueenCard(Suit.Hearts))
 h1.add_card(KingCard(Suit.Hearts))
 
 h2 = Hand()
 h2.add_card(QueenCard(Suit.Hearts))
 h2.add_card(KingCard(Suit.Spades))
 
-cl = [NumberedCard(10, Suit.Diamonds), NumberedCard(9, Suit.Diamonds),
-      NumberedCard(8, Suit.Clubs), JackCard(Suit.Spades)]
+cl = [NumberedCard(10, Suit.Hearts), NumberedCard(9, Suit.Hearts),
+      NumberedCard(8, Suit.Hearts), JackCard(Suit.Spades)]
 
 ph1 = h1.best_poker_hand(cl)
 ph2 = h2.best_poker_hand(cl)
 
-
-print(ph1 == ph2)
-
+print(ph1.check_flush())
