@@ -145,11 +145,20 @@ class Hand:
         return poker_hand
 
     #  if self.best_poker_hands(cards) == 1 and other.best_poker_hands(cards) == 1
+class HandType(Enum):
+    STRAIGHT_FLUSH = 9
+    FOUR_OF_A_KIND = 8
+    FULL_HOUSE = 7
+    FLUSH = 6
+    STRAIGHT = 5
+    THREE_OF_A_KIND = 4
+    TWO_PAIR = 3
+    PAIR = 2
+    HIGH_CARD = 1
 
 
-class PokerHand(Hand):
+class PokerHand:
     def __init__(self, cards):
-        super().__init__()
         self.cards = cards
 
     def __lt__(self, other):
@@ -172,7 +181,18 @@ class PokerHand(Hand):
         else:
             return False
 
+    def __str__(self):
+        return HandType(self.check_poker_hand_value()[0]).name
+
     def check_poker_hand_value(self):
+        """
+        Checks the value of the poker hand by using all check functions
+
+        :param: self
+
+        :return: (tuple): The poker hand's value described in a tuple.
+        """
+
         # Get the amount of same type of cards and its position
         count = self.get_count()
 
@@ -180,47 +200,47 @@ class PokerHand(Hand):
         # If true, returns a tuple with the initial value being predetermined hand type rank and check
         check = self.check_straight_flush()
         if check is not None:
-            return (9,) + check
+            return (HandType.STRAIGHT_FLUSH.value,) + check
 
         check = self.check_four_of_a_kind(count)
         if check is not None:
-            return (8,) + check
+            return (HandType.FOUR_OF_A_KIND.value,) + check
 
         check = self.check_full_house(count)
         if check is not None:
-            return (7,) + check
+            return (HandType.FULL_HOUSE.value,) + check
 
         check = self.check_flush()
         if check is not None:
-            return (6,) + check
+            return (HandType.FLUSH.value,) + check
 
         check = self.check_straight()
         if check is not None:
-            return (5,) + check
+            return (HandType.STRAIGHT.value,) + check
 
         check = self.check_three_of_a_kind(count)
         if check is not None:
-            return (4,) + check
+            return (HandType.THREE_OF_A_KIND.value,) + check
 
         check = self.check_two_pair(count)
         if check is not None:
-            return (3,) + check
+            return (HandType.TWO_PAIR.value,) + check
 
         check = self.check_pair(count)
         if check is not None:
-            return (2,) + check
+            return (HandType.PAIR.value,) + check
         else:
             check = self.its_high_cards()
-            return (1,) + check
+            return (HandType.HIGH_CARD.value,) + check
 
     def check_straight_flush(self):
         """
         Checks for the best straight flush in a list of cards
 
-        if it's a straight
-        return: The highest card in straight flush
+        if it's a straight flush
+        :return (tuple): The value of highest card in the straight flush
         if not
-        return: None
+        :return (NoneType): None
         """
         # Makes a list of tuples from card objects
         cards = [(card.get_value(), card.suit) for card in self.cards]
@@ -238,8 +258,13 @@ class PokerHand(Hand):
                 return card[0],
 
     def get_count(self):
+        """
+
+        :param: self
+        :return: count
+        """
         count = [0] * len(self.cards)
-        # Two for loops to count how many of the same value exists and where
+        # Two for loops to count how many of the same value exists and where they are index
         for i, card1 in enumerate(self.cards):
             for card2 in self.cards:
                 if card1.get_value() == card2.get_value():
@@ -247,19 +272,33 @@ class PokerHand(Hand):
         return count
 
     def check_four_of_a_kind(self, count):
-        # if four of a kind exists
-        # it finds the position of it and its value
+        """
+        Checks for the highest four of a kind in a list of cards
+
+        if it has four of a kind it
+        :return (tuple): The value of highest four of a kind then the highest card value of the kickers
+        if not
+        :return (NoneType): None
+        """
         if 4 in count:
-            #gets the indices for the four of a kinda and the kicker
+            # gets the indices for the four of a kinda and the kicker
             four_indices = [i for i, x in enumerate(count) if x == 4]
             kicker_indices = [i for i, x in enumerate(count) if x != 4]
-            #creates two lists for the fours and the kickers
+            # creates two lists for the fours and the kickers
             kicker = [self.cards[x] for x in kicker_indices]
             the_fours = [self.cards[x] for x in four_indices]
             # Returns the value of the fours and the highest card from the kickers
             return the_fours[-1].get_value(), kicker[-1].get_value()
 
     def check_full_house(self, count):
+        """
+        Checks for the highest full house in a list of cards
+
+        if the list has a full house
+        :return (tuple): The value of highest three of a kind then the value for the highest pair
+        if not
+        :return (NoneType): None
+        """
         if 2 in count and 3 in count:
             # Finds the position of the three of a kind and get what the highets value it has
             threes_indices = [i for i, x in enumerate(count) if x == 3]
@@ -271,6 +310,14 @@ class PokerHand(Hand):
             return threes[-1].get_value(), twos[-1].get_value()
 
     def check_flush(self):
+        """
+        Checks for the best flush in a list of cards
+
+        if it's a flush
+        :return (tuple): The value of highest card in the flush then the next highest and repeats to the lowest card
+        if not
+        :return (NoneType): None
+        """
         # Create a list of the cards' suits
         suits = [self.cards[x].suit for x, e in enumerate(self.cards)]
         #  Dictionary with amount of suits and the suit_name that occurs in the list
@@ -279,11 +326,22 @@ class PokerHand(Hand):
         for suit_name, value in suit_count.items():
             if value >= 5:
                 suit_list = [card for idx, card in enumerate(self.cards) if card.suit == suit_name]
-                return suit_list[-1].get_value(), suit_list[-2].get_value()
+                return suit_list[-1].get_value(), suit_list[-2].get_value(), suit_list[-3].get_value(), \
+                    suit_list[-4].get_value(), suit_list[-5].get_value()
 
     def check_straight(self):
+        """
+        Checks for the best straight in a list of cards
+
+        if it's a straight
+        :return (tuple): The value of highest card in the flush then the next highest and repeats to the lowest card
+        if not
+        :return (NoneType): None
+        """
         # Create a list with the cards' values in rank
         values = [x.get_value() for idx, x in enumerate(self.cards)]
+        if 14 in values:
+            values = [1] + values
         # Remove of the same rank:
         values = sorted(set(values), key=values.index)
         counter = 0
@@ -294,8 +352,8 @@ class PokerHand(Hand):
             if values[i + 1] - values[i] == 1:
                 counter += 1
                 li.append(values[i + 1])
-            else:
-                # Otherwise reset counter and list
+            elif counter < 4:
+                # Otherwise reset counter and list if the counter is less than four
                 counter = 0
                 li = []
 
@@ -303,6 +361,14 @@ class PokerHand(Hand):
             return li[-1],
 
     def check_three_of_a_kind(self, count):
+        """
+        Checks for the best THR in a list of cards
+
+        if it's a straight
+        :return (tuple): The value of highest card in the flush then the next highest and repeats to the lowest card
+        if not
+        :return (NoneType): None
+        """
         if 3 in count:
             # Finds the position of the three of a kind and get what value it has
             threes_indices = [i for i, x in enumerate(count) if x == 3]
@@ -317,15 +383,13 @@ class PokerHand(Hand):
         if len(pair_list) >= 4:  # Checks if there are two or more pairs
             # Finds the position of the pars of a kind and get what value and suit it has
             pair_indices = [i for i, x in enumerate(count) if x == 2]
-            pairs = [self.cards[x].get_value() for x in pair_indices]
+            pairs = [self.cards[x].get_value() for x in pair_indices]  # Create a lis with the pairs' values
             pairs = sorted(set(pairs), key=pairs.index)  # Make each pair a unique element and sort
 
             # Get the kicker indices and its value
             kicker_indices = [i for i, x in enumerate(count) if x != 2]
             kicker = [self.cards[x] for x in kicker_indices]
             return pairs[-1], pairs[-2], kicker[-1].get_value()
-        #blir det inte vara 2 av samma value i pairs[-1], pairs[-2]
-        #ska det inte vara pairs[-1], pairs[-3]
 
     def check_pair(self, count):
         pair_list = [i for i in count if i == 2]  # Create a list where the occurrence of cards is 2
@@ -345,35 +409,3 @@ class PokerHand(Hand):
         return cards[-1].get_value(), cards[-2].get_value(), \
             cards[-3].get_value(), cards[-4].get_value(), cards[-5].get_value()
 
-
-h = Hand()
-d = StandardDeck()
-d.shuffle()
-for i in range(20):
-    h.add_card(d.draw())
-
-for i in range(len(h.cards)):
-    print(h.cards[i])
-print('splittt')
-ph = PokerHand(h.cards)
-
-for i in range(len(ph.cards)):
-    print(ph.cards[i])
-# print(count)
-# print(ph.check_poker_hand_value())
-
-h1 = Hand()
-h1.add_card(QueenCard(Suit.Hearts))
-h1.add_card(KingCard(Suit.Hearts))
-
-h2 = Hand()
-h2.add_card(QueenCard(Suit.Hearts))
-h2.add_card(KingCard(Suit.Spades))
-
-cl = [NumberedCard(10, Suit.Hearts), NumberedCard(9, Suit.Hearts),
-      NumberedCard(8, Suit.Hearts), JackCard(Suit.Spades)]
-
-ph1 = h1.best_poker_hand(cl)
-ph2 = h2.best_poker_hand(cl)
-
-print(ph1.check_flush())

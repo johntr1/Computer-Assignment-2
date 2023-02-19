@@ -12,6 +12,10 @@ def test_cards():
     sk = KingCard(Suit.Spades)
     assert sk.get_value() == 13
 
+    cq = QueenCard(Suit.Clubs)
+    assert cq.get_value() == 12
+    assert cq.suit == Suit.Clubs
+
     assert h5 < sk
     assert h5 == h5
 
