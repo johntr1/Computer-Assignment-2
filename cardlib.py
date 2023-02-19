@@ -1,4 +1,9 @@
-# This is a sample Python script.
+# DAT171 Computer Assignment 2
+# Authors:
+# John Tran
+# Martin Diderholm
+# Group 19
+
 from enum import Enum
 from abc import ABCMeta, abstractmethod
 import random
@@ -20,15 +25,32 @@ class PlayingCard(metaclass=ABCMeta):
 
     @abstractmethod
     def get_value(self):
+        """
+        For the given card it returns its value
+
+        :return(integer): Returns the value of the card
+        """
         pass
 
     def __lt__(self, other):
+        """
+        Compares two cards and returns which is higher
+
+        :param other: The card which is getting compared
+        :return:
+        """
         if self.get_value() == other.get_value():
             return self.suit.value < other.suit.value
         else:
             return self.get_value() < other.get_value()
 
     def __eq__(self, other):
+        """
+        Checks if two cards are the same
+
+        :param other: One of the cards which is compared
+        :return (bool): Retruns True if the cards are the same and False if not
+        """
         if self.get_value() == other.get_value() and self.suit.value == other.suit.value:
             return True
         else:
@@ -52,7 +74,7 @@ class JackCard(PlayingCard):
         super().__init__(suit)
 
     def __str__(self):
-        return f' Jack of {self.suit}'
+        return f'Jack of {self.suit}'
 
     def get_value(self):
         return 11
@@ -63,7 +85,7 @@ class QueenCard(PlayingCard):
         super().__init__(suit)
 
     def __str__(self):
-        return f' Queen of {self.suit}'
+        return f'Queen of {self.suit}'
 
     def get_value(self):
         return 12
@@ -74,18 +96,19 @@ class KingCard(PlayingCard):
         super().__init__(suit)
 
     def __str__(self):
-        return f' King of {self.suit}'
+        return f'King of {self.suit}'
 
     def get_value(self):
         return 13
 
 
 class AceCard(PlayingCard):
+
     def __init__(self, suit):
         super().__init__(suit)
 
     def __str__(self):
-        return f' Ace of {self.suit}'
+        return f'Ace of {self.suit}'
 
     def get_value(self):
         return 14
@@ -104,21 +127,41 @@ class StandardDeck:
             self.deck.append(KingCard(i))
 
     def draw(self):
+        """
+        Removes the top card from the deck and returns it
+
+        :return (class object): A card taken from top of the deck
+        """
         return self.deck.pop(0)
 
     def shuffle(self):
+        """
+        Shuffles the deck
+
+        :return (class object):
+        """
         return random.shuffle(self.deck)
 
 
 class Hand:
     def __init__(self):
-        self.poker_hand = None
         self.cards = []
 
     def add_card(self, draw):
+        """
+        Adds the top card from the deck to the hand
+
+        :param draw: (Class object)
+        :return (NoneType): None
+        """
         self.cards.append(draw)
 
     def sort(self):
+        """
+        Sorts the cards in the hand by value then suit
+
+        :return (list): List of the sorted cards
+        """
         n = len(self.cards) - 1  # Reduces the length by -1 to avoid an extra loop at the end
         # Implementation of Bubble Sort
         is_swapped = False  # Optimization to later check if list is already swapped
@@ -133,18 +176,31 @@ class Hand:
                 return
 
     def drop_cards(self, drop_list):
+        """
+
+        :param drop_list:
+        :return :
+        """
         # Reverse the index list to prevent change of indexes in the card_list
         drop_list = sorted(drop_list, reverse=True)
         for i in drop_list:
             del self.cards[i]
 
     def best_poker_hand(self, cards):
+        """
+        Adds the hand's cards and the external cards from the table to create a list of all available cards
+        to combine with and make a poker hand. The method calls on the PokerHand class with the cards as input to
+        create the best poker hand
+        :param cards: (list) a list of cards
+        :return poker_hand:
+        """
+
         self.cards = self.cards + cards
         self.cards.sort()
         poker_hand = PokerHand(self.cards)
         return poker_hand
 
-    #  if self.best_poker_hands(cards) == 1 and other.best_poker_hands(cards) == 1
+
 class HandType(Enum):
     STRAIGHT_FLUSH = 9
     FOUR_OF_A_KIND = 8
@@ -259,9 +315,9 @@ class PokerHand:
 
     def get_count(self):
         """
+        Creates a list of the cards with how many of the same value there are and where they are index in the list of cards
 
-        :param: self
-        :return: count
+        :return (list): count list of the cards with how many of the same value there are and where they are index
         """
         count = [0] * len(self.cards)
         # Two for loops to count how many of the same value exists and where they are index
@@ -275,7 +331,9 @@ class PokerHand:
         """
         Checks for the highest four of a kind in a list of cards
 
-        if it has four of a kind it
+        :param count: (list) count list of the cards with how many of the same there are and where they are index
+
+            if it has four of a kind it
         :return (tuple): The value of highest four of a kind then the highest card value of the kickers
         if not
         :return (NoneType): None
@@ -293,6 +351,8 @@ class PokerHand:
     def check_full_house(self, count):
         """
         Checks for the highest full house in a list of cards
+
+        :param (list): count list of the cards with how many of the same value there are and where they are index
 
         if the list has a full house
         :return (tuple): The value of highest three of a kind then the value for the highest pair
@@ -362,10 +422,12 @@ class PokerHand:
 
     def check_three_of_a_kind(self, count):
         """
-        Checks for the best THR in a list of cards
+        Checks for the best three of a kind in a list of cards
 
-        if it's a straight
-        :return (tuple): The value of highest card in the flush then the next highest and repeats to the lowest card
+        :param (list): count list of the cards with how many of the same value there are and where they are index
+
+        if it has three of a kind
+        :return (tuple): The value of highest card of threes then the highest kicker value
         if not
         :return (NoneType): None
         """
@@ -379,6 +441,16 @@ class PokerHand:
             return threes[-1].get_value(), kicker[-1].get_value()
 
     def check_two_pair(self, count):
+        """
+        Checks for the best two pairs in a list of cards
+
+        :param (list): count list of the cards with how many of the same value there are and where they are index
+
+        if it has two pairs
+        :return (tuple): The value of highest pair then the value of next highest pair then the value for the highest kicker
+        if not
+        :return (NoneType): None
+        """
         pair_list = [i for i in count if i == 2]  # Create a list where the occurrence of cards is 2
         if len(pair_list) >= 4:  # Checks if there are two or more pairs
             # Finds the position of the pars of a kind and get what value and suit it has
@@ -392,6 +464,16 @@ class PokerHand:
             return pairs[-1], pairs[-2], kicker[-1].get_value()
 
     def check_pair(self, count):
+        """
+        Checks for the best pairs in a list of cards
+
+        :param (list): count list of the cards with how many of the same value there are and where they are index
+
+        if it has a pair
+        :return (tuple): The value of the pair then the value of the three highest kickers with the highest value first
+        if not
+        :return (NoneType): None
+        """
         pair_list = [i for i in count if i == 2]  # Create a list where the occurrence of cards is 2
         if len(pair_list) == 2:  # Checks if there are two or more pairs
             # Finds the position of the pairs of a kind and get its value
@@ -405,6 +487,11 @@ class PokerHand:
             return pair[-1], kicker[-1].get_value(), kicker[-2].get_value(), kicker[-3].get_value()
 
     def its_high_cards(self):
+        """
+        Gives the highest cards from a list of cards
+
+        :return (tuple): The value of the highest card then next 4 highest value cards in order
+        """
         cards = self.cards
         return cards[-1].get_value(), cards[-2].get_value(), \
             cards[-3].get_value(), cards[-4].get_value(), cards[-5].get_value()

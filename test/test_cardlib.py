@@ -1,20 +1,16 @@
 from enum import Enum
 import pytest
-
 from cardlib import *
 
 
 # This test assumes you call your suit class "Suit" and the suits "Hearts and "Spades"
 def test_cards():
+    # The following are from the sample test
     h5 = NumberedCard(4, Suit.Hearts)
     assert isinstance(h5.suit, Enum)
 
     sk = KingCard(Suit.Spades)
     assert sk.get_value() == 13
-
-    cq = QueenCard(Suit.Clubs)
-    assert cq.get_value() == 12
-    assert cq.suit == Suit.Clubs
 
     assert h5 < sk
     assert h5 == h5
@@ -22,9 +18,35 @@ def test_cards():
     with pytest.raises(TypeError):
         pc = PlayingCard(Suit.Clubs)
 
+    # The following are additional tests required by the assignment
+
+    cq = QueenCard(Suit.Clubs)
+    assert cq.get_value() == 12
+    assert cq.suit == Suit.Clubs
+
+    assert cq == cq
+
+    dj = JackCard(Suit.Diamonds)
+
+    assert dj.get_value() == 11
+    assert not dj.suit == cq.suit
+    assert str(dj) == "Jack of Diamonds"
+
+    d6 = NumberedCard(6, Suit.Diamonds)
+
+    assert d6.suit == dj.suit
+
+    h9 = NumberedCard(9, Suit.Hearts)
+    h10 = NumberedCard(10, Suit.Hearts)
+
+    assert h9.get_value() < h10.get_value() and h9.suit == h10.suit
+
+    assert str(h9) == "9 of Hearts"
+
 
 # This test assumes you call your shuffle method "shuffle" and the method to draw a card "draw"
 def test_deck():
+    # The following code from this test are from the sample code
     d = StandardDeck()
     c1 = d.draw()
     c2 = d.draw()
@@ -36,10 +58,17 @@ def test_deck():
     c4 = d2.draw()
     assert not ((c3, c4) == (c1, c2))
 
+    # The following is additional code required by the assignment
+
+    d3 = StandardDeck()
+    assert len(d3.deck) == 52
+    assert len(d2.deck) == 50 and len(d.deck) == 50
+
 
 # This test builds on the assumptions above and assumes you store the cards in the hand in the list "cards",
 # and that your sorting method is called "sort" and sorts in increasing order
 def test_hand():
+    # All the following tests are from the sample tests
     h = Hand()
     assert len(h.cards) == 0
     d = StandardDeck()
@@ -61,6 +90,24 @@ def test_hand():
     assert len(h.cards) == 2
     assert h.cards[0] == cards[2]
     assert h.cards[1] == cards[3]
+
+    # Following tests are own tests made by us
+    
+    # Same test but with more cards and different indices
+    h2 = Hand()
+    h2.add_card(d.draw())
+    h2.add_card(d.draw())
+    h2.add_card(d.draw())
+    h2.add_card(d.draw())
+    h2.add_card(d.draw())
+    h2.add_card(d.draw())
+    h2.add_card(d.draw())
+    cards2 = h2.cards.copy()
+    h2.drop_cards([4, 5, 2, 6, 1])
+    assert len(h2.cards) == 2
+    assert h2.cards[0] == cards2[0]
+    assert h2.cards[1] == cards2[3]
+
 
 
 # This test builds on the assumptions above. Add your type and data for the commented out tests
