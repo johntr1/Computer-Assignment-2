@@ -176,8 +176,8 @@ class PokerHand(Hand):
         # Get the amount of same type of cards and its position
         count = self.get_count()
 
-        # Following code will check if the functions return a value or None
-
+        # Following code in the function will check if the functions return a value or None
+        # If true, returns a tuple with the initial value being predetermined hand type rank and check
         check = self.check_straight_flush()
         if check is not None:
             return (9,) + check
@@ -283,11 +283,14 @@ class PokerHand(Hand):
         values = sorted(set(values), key=values.index)
         counter = 0
         li = []
+        # Iterates through the values
         for i in range(len(values) - 1):
+            # If the difference is 1 add to the counter and append the value to list
             if values[i + 1] - values[i] == 1:
                 counter += 1
                 li.append(values[i + 1])
             else:
+                # Otherwise reset counter and list
                 counter = 0
                 li = []
 
