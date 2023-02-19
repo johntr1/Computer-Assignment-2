@@ -217,16 +217,17 @@ class PokerHand(Hand):
         """
         Checks for the best straight flush in a list of cards
 
-        return:
+        if it's a straight
+        return: The highest card in straight flush
+        if not
+        return: None
         """
-        # works if ace is set as 14
+        # Makes a list of tuples from card objects
         cards = [(card.get_value(), card.suit) for card in self.cards]
         ace_cards = [(1, card.suit) for card in self.cards if card.get_value() == 14]
 
         cards = ace_cards + cards
-        #    print(cards)
         cards = list(reversed(cards))
-        #    print(cards)
         for i, card in enumerate(cards):
             for k in range(1, 5):
                 straight_flush = True
@@ -234,7 +235,7 @@ class PokerHand(Hand):
                     straight_flush = False
                     break
             if straight_flush:
-                return card[0], card[1]
+                return card[0],
 
     def get_count(self):
         count = [0] * len(self.cards)
@@ -246,12 +247,16 @@ class PokerHand(Hand):
         return count
 
     def check_four_of_a_kind(self, count):
-        # finds the position of the three of a kind and gets the highest card
+        # if four of a kind exists
+        # it finds the position of it and its value
         if 4 in count:
+            #gets the indices for the four of a kinda and the kicker
             four_indices = [i for i, x in enumerate(count) if x == 4]
             kicker_indices = [i for i, x in enumerate(count) if x != 4]
+            #creates two lists for the fours and the kickers
             kicker = [self.cards[x] for x in kicker_indices]
-            the_fours = [self.cards[x] for x in four_indices]  # Returns elements from list of indices
+            the_fours = [self.cards[x] for x in four_indices]
+            # Returns the value of the fours and the highest card from the kickers
             return the_fours[-1].get_value(), kicker[-1].get_value()
 
     def check_full_house(self, count):
@@ -274,7 +279,7 @@ class PokerHand(Hand):
         for suit_name, value in suit_count.items():
             if value >= 5:
                 suit_list = [card for idx, card in enumerate(self.cards) if card.suit == suit_name]
-                return suit_list[-1].get_value(), suit_name.value
+                return suit_list[-1].get_value(), suit_list[-2].get_value()
 
     def check_straight(self):
         # Create a list with the cards' values in rank
@@ -319,6 +324,8 @@ class PokerHand(Hand):
             kicker_indices = [i for i, x in enumerate(count) if x != 2]
             kicker = [self.cards[x] for x in kicker_indices]
             return pairs[-1], pairs[-2], kicker[-1].get_value()
+        #blir det inte vara 2 av samma value i pairs[-1], pairs[-2]
+        #ska det inte vara pairs[-1], pairs[-3]
 
     def check_pair(self, count):
         pair_list = [i for i in count if i == 2]  # Create a list where the occurrence of cards is 2
