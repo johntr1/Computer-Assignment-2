@@ -465,8 +465,13 @@ class PokerHand:
 
             # Get the kicker indices and its value
             kicker_indices = [i for i, x in enumerate(count) if x != 2]
-            kicker = [self.cards[x] for x in kicker_indices]
-            return pairs[-1], pairs[-2], kicker[-1].get_value()
+
+            # If there are no kickers and only pairs, return the three individual pairs
+            if not kicker_indices:
+                return pairs[-1], pairs[-2], pairs[-3]
+            else:
+                kicker = [self.cards[x] for x in kicker_indices]
+                return pairs[-1], pairs[-2], kicker[-1].get_value()
 
     def check_pair(self, count):
         """

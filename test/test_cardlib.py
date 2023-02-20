@@ -233,13 +233,17 @@ def test_pokerhands():
     assert HandType(ph8.check_poker_hand_value()[0]) == HandType.STRAIGHT
     assert ph8.check_poker_hand_value() == (5, 14)
 
+    # Compare same hand type for straight flush
+    assert ph7 < ph8
+
     # Tests for four of a kind
 
     h5 = Hand()
     h5.add_card(NumberedCard(7, Suit.Spades))
     h5.add_card(NumberedCard(7, Suit.Diamonds))
 
-    cl = [NumberedCard(7, Suit.Hearts), NumberedCard(7, Suit.Clubs), KingCard(Suit.Spades), NumberedCard(3, Suit.Spades),
+    cl = [NumberedCard(7, Suit.Hearts), NumberedCard(7, Suit.Clubs), KingCard(Suit.Spades),
+          NumberedCard(3, Suit.Spades),
           NumberedCard(4, Suit.Hearts)]
 
     ph9 = h5.best_poker_hand(cl)
@@ -250,11 +254,17 @@ def test_pokerhands():
     cl.pop(0)
     cl.append(JackCard(Suit.Spades))
 
-    ph9 = h5.best_poker_hand(cl)
-    assert HandType(ph9.check_poker_hand_value()[0]) == HandType.THREE_OF_A_KIND
-    assert ph9.check_poker_hand_value() == (4, 7, 13)
+    ph10 = h5.best_poker_hand(cl)
+    assert HandType(ph10.check_poker_hand_value()[0]) == HandType.THREE_OF_A_KIND
+    assert ph10.check_poker_hand_value() == (4, 7, 13)
 
+    # Checks if three of a kind is worth less than four of a kind:
+    assert ph10 < ph9
 
+    # Check if two-pair works for a case where there are only pairs
 
+    cl = [KingCard(Suit.Spades), KingCard(Suit.Diamonds), NumberedCard(3, Suit.Spades), NumberedCard(3, Suit.Diamonds)]
 
-
+    ph11 = h5.best_poker_hand(cl)
+    assert HandType(ph11.check_poker_hand_value()[0]) == HandType.TWO_PAIR
+    assert ph11.check_poker_hand_value() == (3, 13, 7, 3)
