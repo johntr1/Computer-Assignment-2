@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to DAT171 CA2 Group 19’s documentation! &#8212; DAT171 CA2 Group 19 20/02/2023 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="welcome-to-dat171-ca2-group-19-s-documentation">
+<h1>Welcome to DAT171 CA2 Group 19’s documentation!<a class="headerlink" href="#welcome-to-dat171-ca2-group-19-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-cardlib"></span><dl class="py class">
+<dt class="sig sig-object py" id="cardlib.AceCard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">AceCard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.AceCard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cardlib.PlayingCard" title="cardlib.PlayingCard"><code class="xref py py-class docutils literal notranslate"><span class="pre">cardlib.PlayingCard</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.AceCard.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.AceCard.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the given card it returns its value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return(integer)</dt>
+<dd class="field-odd"><p>Returns the value of the card</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.Hand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">Hand</span></span><a class="headerlink" href="#cardlib.Hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that constructs a hand</p>
+<p>The class can add new cards to its hand and drop cards.
+The class can sort its hand
+The class can call on the PokerHand class to compute the best hand out of the cards and its value</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.Hand.add_card">
+<span class="sig-name descname"><span class="pre">add_card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">draw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.Hand.add_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the top card from the deck to the hand</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>draw</strong> – (Class object)</p>
+</dd>
+<dt class="field-even">Return (NoneType)</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.Hand.best_poker_hand">
+<span class="sig-name descname"><span class="pre">best_poker_hand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cards</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.Hand.best_poker_hand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the hand’s cards and the external cards from the table to create a list of all available cards
+to combine with and make a poker hand. The method calls on the PokerHand class with the cards as input to
+create the best poker hand
+:param cards: (list) a list of cards
+:return poker_hand:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.Hand.drop_cards">
+<span class="sig-name descname"><span class="pre">drop_cards</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">drop_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.Hand.drop_cards" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>drop_list</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.Hand.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.Hand.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sorts the cards in the hand by value then suit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return (list)</dt>
+<dd class="field-odd"><p>List of the sorted cards</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.HandType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">HandType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.HandType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enum class that gives every hand type a value depending on its strength in poker</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.JackCard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">JackCard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.JackCard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cardlib.PlayingCard" title="cardlib.PlayingCard"><code class="xref py py-class docutils literal notranslate"><span class="pre">cardlib.PlayingCard</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.JackCard.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.JackCard.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the given card it returns its value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return(integer)</dt>
+<dd class="field-odd"><p>Returns the value of the card</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.KingCard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">KingCard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.KingCard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cardlib.PlayingCard" title="cardlib.PlayingCard"><code class="xref py py-class docutils literal notranslate"><span class="pre">cardlib.PlayingCard</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.KingCard.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.KingCard.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the given card it returns its value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return(integer)</dt>
+<dd class="field-odd"><p>Returns the value of the card</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.NumberedCard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">NumberedCard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.NumberedCard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cardlib.PlayingCard" title="cardlib.PlayingCard"><code class="xref py py-class docutils literal notranslate"><span class="pre">cardlib.PlayingCard</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.NumberedCard.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.NumberedCard.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the given card it returns its value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return(integer)</dt>
+<dd class="field-odd"><p>Returns the value of the card</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.PlayingCard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">PlayingCard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PlayingCard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Superclass that overloads its functions to the cards’ subclasses</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PlayingCard.get_value">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PlayingCard.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the given card it returns its value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return(integer)</dt>
+<dd class="field-odd"><p>Returns the value of the card</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.PokerHand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">PokerHand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cards</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that controls the following hand types and its values with a list of cards as input:
+High card
+One pair
+Two pair
+Three of a kind
+Straight
+Flush
+Full house
+Four of a kind
+Straight flush</p>
+<p>The class is overloaded with the &lt; and == operators which makes it possible to compare two of the same class objects</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_flush">
+<span class="sig-name descname"><span class="pre">check_flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the best flush in a list of cards</p>
+<p>if it’s a flush
+:return (tuple): The value of highest card in the flush then the next highest and repeats to the lowest card
+if not
+:return (NoneType): None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_four_of_a_kind">
+<span class="sig-name descname"><span class="pre">check_four_of_a_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_four_of_a_kind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the highest four of a kind in a list of cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>count</strong> – (list) count list of the cards with how many of the same there are and where they are index
+if it has four of a kind it</p>
+</dd>
+<dt class="field-even">Return (tuple)</dt>
+<dd class="field-even"><p>The value of highest four of a kind then the highest card value of the kickers
+if not</p>
+</dd>
+<dt class="field-odd">Return (NoneType)</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_full_house">
+<span class="sig-name descname"><span class="pre">check_full_house</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_full_house" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the highest full house in a list of cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>(</strong><strong>list</strong><strong>)</strong> – count list of the cards with how many of the same value there are and where they are index</p>
+</dd>
+</dl>
+<p>if the list has a full house
+:return (tuple): The value of the highest three of a kind then the value for the highest pair
+if not
+:return (NoneType): None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_pair">
+<span class="sig-name descname"><span class="pre">check_pair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_pair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the best pairs in a list of cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>(</strong><strong>list</strong><strong>)</strong> – count list of the cards with how many of the same value there are and where they are index</p>
+</dd>
+</dl>
+<p>if it has a pair
+:return (tuple): The value of the pair then the value of the three highest kickers with the highest value first
+if not
+:return (NoneType): None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_poker_hand_value">
+<span class="sig-name descname"><span class="pre">check_poker_hand_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_poker_hand_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the value of the poker hand by using all check functions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(tuple): The poker hand’s value described in a tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_straight">
+<span class="sig-name descname"><span class="pre">check_straight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_straight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the best straight in a list of cards</p>
+<p>if it’s a straight
+:return (tuple): The value of highest card in the flush then the next highest and repeats to the lowest card
+if not
+:return (NoneType): None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_straight_flush">
+<span class="sig-name descname"><span class="pre">check_straight_flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_straight_flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the best straight flush in a list of cards</p>
+<p>if it’s a straight flush
+:return (tuple): The value of highest card in the straight flush
+if not
+:return (NoneType): None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_three_of_a_kind">
+<span class="sig-name descname"><span class="pre">check_three_of_a_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_three_of_a_kind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the best three of a kind in a list of cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>(</strong><strong>list</strong><strong>)</strong> – count list of the cards with how many of the same value there are and where they are index</p>
+</dd>
+</dl>
+<p>if it has three of a kind
+:return (tuple): The value of highest card of threes then the highest kicker value
+if not
+:return (NoneType): None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.check_two_pair">
+<span class="sig-name descname"><span class="pre">check_two_pair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.check_two_pair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the best two pairs in a list of cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>(</strong><strong>list</strong><strong>)</strong> – count list of the cards with how many of the same value there are and where they are index</p>
+</dd>
+</dl>
+<p>if it has two pairs
+:return (tuple): The value of highest pair then the value of next highest pair then the value for the highest kicker
+if not
+:return (NoneType): None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.get_count">
+<span class="sig-name descname"><span class="pre">get_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.get_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a list of the cards with how many of the same value there are and where they are index in the list of cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return (list)</dt>
+<dd class="field-odd"><p>count list of the cards with how many of the same value there are and where they are index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.PokerHand.its_high_cards">
+<span class="sig-name descname"><span class="pre">its_high_cards</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.PokerHand.its_high_cards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the highest cards from a list of cards</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return (tuple)</dt>
+<dd class="field-odd"><p>The value of the highest card then next 4 highest value cards in order</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.QueenCard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">QueenCard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.QueenCard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cardlib.PlayingCard" title="cardlib.PlayingCard"><code class="xref py py-class docutils literal notranslate"><span class="pre">cardlib.PlayingCard</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.QueenCard.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.QueenCard.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the given card it returns its value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return(integer)</dt>
+<dd class="field-odd"><p>Returns the value of the card</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.StandardDeck">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">StandardDeck</span></span><a class="headerlink" href="#cardlib.StandardDeck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Constructs a deck of 52 cards
+The class has functions to draw a card from the deck and shuffle the deck.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.StandardDeck.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.StandardDeck.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the top card from the deck and returns it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return (class object)</dt>
+<dd class="field-odd"><p>A card taken from top of the deck</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cardlib.StandardDeck.shuffle">
+<span class="sig-name descname"><span class="pre">shuffle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.StandardDeck.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffles the deck</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return (class object)</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cardlib.Suit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cardlib.</span></span><span class="sig-name descname"><span class="pre">Suit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardlib.Suit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum class that sets a value to the suits</p>
+</dd></dl>
+
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">DAT171 CA2 Group 19</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Martin Diderholm, John Tran.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

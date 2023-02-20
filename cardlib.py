@@ -10,6 +10,7 @@ import random
 
 
 class Suit(Enum):
+    """Enum class that sets a value to the suits"""
     Hearts = 4
     Spades = 3
     Clubs = 2
@@ -20,6 +21,7 @@ class Suit(Enum):
 
 
 class PlayingCard(metaclass=ABCMeta):
+    """Superclass that overloads its functions to the cards' subclasses"""
     def __init__(self, suit):
         self.suit = suit
 
@@ -116,6 +118,9 @@ class AceCard(PlayingCard):
 
 # StandardDeck
 class StandardDeck:
+    """Constructs a deck of 52 cards
+    The class has functions to draw a card from the deck and shuffle the deck.
+    """
     def __init__(self):
         self.deck = []
         for i in Suit:
@@ -144,6 +149,13 @@ class StandardDeck:
 
 
 class Hand:
+    """A class that constructs a hand
+
+    The class can add new cards to its hand and drop cards.
+    The class can sort its hand
+    The class can call on the PokerHand class to compute the best hand out of the cards and its value
+
+    """
     def __init__(self):
         self.cards = []
 
@@ -177,9 +189,8 @@ class Hand:
 
     def drop_cards(self, drop_list):
         """
-
-        :param drop_list:
-        :return :
+            :param drop_list:
+            :return:
         """
         # Reverse the index list to prevent change of indexes in the card_list
         drop_list = sorted(drop_list, reverse=True)
@@ -202,6 +213,7 @@ class Hand:
 
 
 class HandType(Enum):
+    """An enum class that gives every hand type a value depending on its strength in poker"""
     STRAIGHT_FLUSH = 9
     FOUR_OF_A_KIND = 8
     FULL_HOUSE = 7
@@ -214,6 +226,21 @@ class HandType(Enum):
 
 
 class PokerHand:
+    """
+    Class that controls the following hand types and its values with a list of cards as input:
+    High card
+    One pair
+    Two pair
+    Three of a kind
+    Straight
+    Flush
+    Full house
+    Four of a kind
+    Straight flush
+
+    The class is overloaded with the < and == operators which makes it possible to compare two of the same class objects
+
+    """
     def __init__(self, cards):
         self.cards = cards
 
@@ -332,12 +359,12 @@ class PokerHand:
         Checks for the highest four of a kind in a list of cards
 
         :param count: (list) count list of the cards with how many of the same there are and where they are index
-
             if it has four of a kind it
         :return (tuple): The value of highest four of a kind then the highest card value of the kickers
-        if not
+            if not
         :return (NoneType): None
-        """
+
+    """
         if 4 in count:
             # gets the indices for the four of a kinda and the kicker
             four_indices = [i for i, x in enumerate(count) if x == 4]
