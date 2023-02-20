@@ -505,12 +505,3 @@ class PokerHand:
         cards = self.cards
         return cards[-1].get_value(), cards[-2].get_value(), \
             cards[-3].get_value(), cards[-4].get_value(), cards[-5].get_value()
-
-h3 = Hand()
-h3.add_card(AceCard(Suit.Diamonds))
-h3.add_card(KingCard(Suit.Diamonds))
-
-cl = [QueenCard(Suit.Spades), JackCard(Suit.Diamonds), NumberedCard(10, Suit.Diamonds), KingCard(Suit.Spades)]
-ph8 = h3.best_poker_hand(cl)
-
-print(ph8.check_straight())
