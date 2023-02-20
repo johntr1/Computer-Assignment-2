@@ -49,7 +49,7 @@ class PlayingCard(metaclass=ABCMeta):
         Checks if two cards are the same
 
         :param other: One of the cards which is compared
-        :return (bool): Retruns True if the cards are the same and False if not
+        :return (bool): Returns True if the cards are the same and False if not
         """
         if self.get_value() == other.get_value() and self.suit.value == other.suit.value:
             return True

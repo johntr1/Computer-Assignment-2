@@ -5,14 +5,14 @@
     <orderEntry type="jdk" jdkName="C:\Users\John\anaconda3" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="PackageRequirementsSettings">
+    <option name="requirementsPath" value="" />
+  </component>
   <component name="PyNamespacePackagesService">
     <option name="namespacePackageFolders">
       <list>
         <option value="$MODULE_DIR$/test" />
       </list>
     </option>
-  </component>
-  <component name="ReSTService">
-    <option name="DOC_DIR" value="C:\Users\John\Documents\GitHub\Computer-Assignment-2\doc" />
   </component>
 </module>
