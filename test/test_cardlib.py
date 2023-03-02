@@ -227,7 +227,7 @@ def test_pokerhands():
 
     # Test for when Ace has value of 14:
 
-    cl = [QueenCard(Suit.Spades), JackCard(Suit.Diamonds), NumberedCard(10, Suit.Diamonds), KingCard(Suit.Spades)]
+    cl = [QueenCard(Suit.Spades), JackCard(Suit.Diamonds), NumberedCard(10, Suit.Diamonds), KingCard(Suit.Spades), NumberedCard(9, Suit.Spades)]
     ph8 = h3.best_poker_hand(cl)
 
     assert HandType(ph8.check_poker_hand_value()[0]) == HandType.STRAIGHT
@@ -235,6 +235,13 @@ def test_pokerhands():
 
     # Compare same hand type for straight flush
     assert ph7 < ph8
+
+    # Test for longer straights
+
+
+
+    # Test for longer straights
+
 
     # Tests for four of a kind
 
