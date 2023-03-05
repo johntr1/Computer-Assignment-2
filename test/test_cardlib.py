@@ -128,6 +128,10 @@ def test_pokerhands():
     h1.add_card(QueenCard(Suit.Diamonds))
     h1.add_card(KingCard(Suit.Hearts))
 
+    # Test if you can provide nothing to the function:
+    ph = h1.best_poker_hand()
+    assert isinstance(ph, PokerHand)
+
     h2 = Hand()
     h2.add_card(QueenCard(Suit.Hearts))
     h2.add_card(AceCard(Suit.Hearts))
@@ -238,10 +242,9 @@ def test_pokerhands():
 
     # Test for longer straights
 
-
-
-    # Test for longer straights
-
+    ph8 = h4.best_poker_hand(cl)
+    assert HandType(ph8.check_poker_hand_value()[0]) == HandType.STRAIGHT
+    assert ph8.check_poker_hand_value() == (5, 14)
 
     # Tests for four of a kind
 
@@ -275,3 +278,13 @@ def test_pokerhands():
     ph11 = h5.best_poker_hand(cl)
     assert HandType(ph11.check_poker_hand_value()[0]) == HandType.TWO_PAIR
     assert ph11.check_poker_hand_value() == (3, 13, 7, 3)
+
+    # Double check if a long straight works:
+
+    cl = [AceCard(Suit.Spades), NumberedCard(2, Suit.Diamonds), NumberedCard(3, Suit.Clubs), NumberedCard(4, Suit.Hearts), NumberedCard(5, Suit.Spades)]
+    h6 = Hand()
+    h6.add_card(NumberedCard(6, Suit.Spades))
+    h6.add_card(NumberedCard(7, Suit.Hearts))
+    ph12 = h6.best_poker_hand(cl)
+    assert HandType(ph12.check_poker_hand_value()[0]) == HandType.STRAIGHT
+    assert ph12.check_poker_hand_value() == (5, 7)

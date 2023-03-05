@@ -11,10 +11,10 @@ import random
 
 class Suit(Enum):
     """Enum class that sets a value to the suits"""
-    Hearts = 4
-    Spades = 3
-    Clubs = 2
-    Diamonds = 1
+    Hearts = 1
+    Spades = 2
+    Clubs = 3
+    Diamonds = 4
 
     def __str__(self):
         return self.name
@@ -197,7 +197,7 @@ class Hand:
         for i in drop_list:
             del self.cards[i]
 
-    def best_poker_hand(self, cards):
+    def best_poker_hand(self, cards=None):
         """
         Adds the hand's cards and the external cards from the table to create a list of all available cards
         to combine with and make a poker hand. The method calls on the PokerHand class with the cards as input to
@@ -206,6 +206,8 @@ class Hand:
         :return poker_hand:
         """
 
+        if cards is None:
+            cards = []
         card_list = self.cards + cards
         card_list.sort()
         poker_hand = PokerHand(card_list)
@@ -435,22 +437,22 @@ class PokerHand:
         if 14 in values:
             values = [1] + values
         # Remove of the same rank:
-        values = sorted(set(values), key=values.index)
+        values = sorted(set(values), key=values.index, reverse=True)
         counter = 0
         li = []
         # Iterates through the values
         for i in range(len(values) - 1):
             # If the difference is 1 add to the counter and append the value to list
-            if values[i + 1] - values[i] == 1:
+            if values[i] - values[i+1] == 1:
                 counter += 1
-                li.append(values[i+1])
+                li.append(values[i])
             elif counter < 4:
                 # Otherwise reset counter and list if the counter is less than four
                 counter = 0
                 li = []
 
             if counter >= 4:
-                return li[-1],
+                return li[0],
 
     def check_three_of_a_kind(self, count):
         """
