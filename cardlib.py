@@ -159,6 +159,11 @@ class Hand:
     def __init__(self):
         self.cards = []
 
+    def __str__(self):
+        text = [str(x) for idx, x in enumerate(self.cards)]
+        text = ', '.join(text)
+        return text
+
     def add_card(self, draw):
         """
         Adds the top card from the deck to the hand
@@ -197,7 +202,7 @@ class Hand:
         for i in drop_list:
             del self.cards[i]
 
-    def best_poker_hand(self, cards=None):
+    def best_poker_hand(self, cards=[]):
         """
         Adds the hand's cards and the external cards from the table to create a list of all available cards
         to combine with and make a poker hand. The method calls on the PokerHand class with the cards as input to
